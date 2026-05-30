@@ -1,0 +1,24 @@
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Node
+node_modules/
+dist/
+*.log
+.npm/
+.eslintcache
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+.mcp.json
+*.pem
+*.key
+
+# Local
+local/
+tmp/
+*.local

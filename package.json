@@ -1,0 +1,28 @@
+{
+  "name": "leadguard",
+  "version": "0.1.0",
+  "description": "WhatsApp → CRM lead ingestion pipeline. Clean Architecture + DDD reference (TypeScript).",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0",
+    "eslint": "^9.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/valterjuniorsilv/leadguard.git"
+  }
+}
