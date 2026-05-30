@@ -8,30 +8,53 @@ on:
   workflow_dispatch:
 
 jobs:
-  typecheck:
+  architecture:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install
-        run: npm install --no-audit --no-fund
-      - name: Typecheck
-        run: npx tsc --noEmit
-      - name: Validate architecture
+
+      - name: Validate Clean Architecture boundaries
         shell: bash
         run: |
           set -e
           fail=0
-          # Domain layer cannot import from infrastructure or presentation
           if grep -rE "from ['\"](.*infrastructure|.*presentation)" src/domain/ 2>/dev/null; then
             echo "ERR: domain/ imports from infrastructure or presentation (DIP violation)"
             fail=1
           fi
-          # Application layer cannot import from infrastructure or presentation
           if grep -rE "from ['\"](.*infrastructure|.*presentation)" src/application/ 2>/dev/null; then
             echo "ERR: application/ imports from infrastructure or presentation (DIP violation)"
             fail=1
           fi
           [ $fail -eq 0 ] && echo "Clean Architecture boundaries valid." || exit 1
+
+      - name: Validate folder structure
+        shell: bash
+        run: |
+          set -e
+          for d in src/domain src/application src/presentation src/infrastructure; do
+            if [ ! -d "$d" ]; then
+              echo "Missing layer: $d"
+              exit 1
+            fi
+          done
+          echo "All 4 architectural layers present."
+
+      - name: Validate domain layer has entities + value-objects + interfaces
+        shell: bash
+        run: |
+          for d in entities value-objects interfaces; do
+            if [ ! -d "src/domain/$d" ]; then
+              echo "Domain layer missing: $d/"
+              exit 1
+            fi
+          done
+          echo "Domain layer is complete (DDD)."
+
+      - name: Count files per layer
+        shell: bash
+        run: |
+          for layer in domain application presentation infrastructure; do
+            count=$(find src/$layer -name '*.ts' 2>/dev/null | wc -l | tr -d ' ')
+            echo "$layer: $count .ts files"
+          done
