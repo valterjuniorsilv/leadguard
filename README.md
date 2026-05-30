@@ -1,5 +1,7 @@
 # LeadGuard
 
+[![CI](https://github.com/valterjuniorsilv/leadguard/actions/workflows/ci.yml/badge.svg)](https://github.com/valterjuniorsilv/leadguard/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Release](https://img.shields.io/github/v/release/valterjuniorsilv/leadguard)](https://github.com/valterjuniorsilv/leadguard/releases) [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue)](https://www.typescriptlang.org/)
+
 > Pipeline de ingestão de leads **WhatsApp → CRM** com proteção contra race conditions, deduplicação distribuída e mapeamento dinâmico de colunas. Referência de **Clean Architecture + DDD** em TypeScript, extraída de produção e sanitizada.
 
 Cliente envia mensagem no WhatsApp → Evolution API dispara webhook → o pipeline normaliza, dedupe, aplica lock distribuído, busca config do cliente, mapeia colunas dinamicamente do CRM e cria/atualiza o lead via GraphQL. Sem perder mensagem, sem criar duplicata, mesmo quando o usuário manda 4 mensagens em 200ms.
